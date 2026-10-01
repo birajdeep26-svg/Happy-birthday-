@@ -90,6 +90,36 @@ button{
   animation:pop .5s ease;
 }
 
+/* नीचे आने वाली प्यारी lines */
+#birthdayLines{
+  display:none;
+  margin-top:18px;
+  max-height:180px;
+  overflow:hidden;
+}
+
+#birthdayLines.show{
+  display:block;
+}
+
+.birthday-line{
+  opacity:0;
+  transform:translateY(20px);
+  margin:12px 0;
+  color:#7a4bb5;
+  font-size:17px;
+  font-weight:bold;
+  animation:lineIn .8s ease forwards;
+}
+
+/* धीरे-धीरे नीचे जाने वाला effect */
+@keyframes lineIn{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
 .balloon{
   position:absolute;
   font-size:42px;
@@ -186,6 +216,31 @@ button{
       May your special day be as awesome and wonderful as you are! 🌸✨
     </p>
 
+    <!-- प्यारी lines यहाँ आएंगी -->
+    <div id="birthdayLines">
+
+      <div class="birthday-line">
+        🌸 May your smile always stay this beautiful. 💖
+      </div>
+
+      <div class="birthday-line">
+        ✨ May every moment of your life be filled with happiness.
+      </div>
+
+      <div class="birthday-line">
+        🥰 You deserve all the love, laughter and happiness in the world.
+      </div>
+
+      <div class="birthday-line">
+        🎂 Keep smiling, keep shining and enjoy your special day!
+      </div>
+
+      <div class="birthday-line">
+        💕 Once again, Happy Birthday! Have the most beautiful day. 🎉
+      </div>
+
+    </div>
+
   </div>
 
 </div>
@@ -196,6 +251,16 @@ function showSurprise(){
 
   document.getElementById("surprise").classList.add("show");
 
+  /* Birthday lines को धीरे-धीरे दिखाना */
+  const lines = document.querySelectorAll(".birthday-line");
+
+  document.getElementById("birthdayLines").classList.add("show");
+
+  lines.forEach((line,index)=>{
+    line.style.animationDelay = (index * 1.5) + "s";
+  });
+
+  /* Confetti */
   for(let i=0;i<35;i++){
 
     const c=document.createElement("div");
