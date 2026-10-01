@@ -17,8 +17,10 @@ body{
   min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
-  overflow:hidden;
+  align-items:flex-start;
+  overflow-x:hidden;
+  overflow-y:auto;
+  padding:30px 0;
   font-family:Arial,sans-serif;
   background:linear-gradient(135deg,#ffd6e7,#d8e7ff,#e7d7ff);
 }
@@ -33,6 +35,7 @@ body{
   box-shadow:0 20px 60px rgba(70,40,100,.22);
   position:relative;
   z-index:2;
+  margin:auto 0;
 }
 
 .emoji{
@@ -90,12 +93,11 @@ button{
   animation:pop .5s ease;
 }
 
-/* नीचे आने वाली प्यारी lines */
 #birthdayLines{
   display:none;
   margin-top:18px;
-  max-height:180px;
-  overflow:hidden;
+  max-height:none;
+  overflow:visible;
 }
 
 #birthdayLines.show{
@@ -112,7 +114,6 @@ button{
   animation:lineIn .8s ease forwards;
 }
 
-/* धीरे-धीरे नीचे जाने वाला effect */
 @keyframes lineIn{
   to{
     opacity:1;
@@ -121,9 +122,11 @@ button{
 }
 
 .balloon{
-  position:absolute;
+  position:fixed;
   font-size:42px;
   animation:float 6s linear infinite;
+  pointer-events:none;
+  z-index:1;
 }
 
 .b1{
@@ -144,12 +147,14 @@ button{
 }
 
 .confetti{
-  position:absolute;
+  position:fixed;
   top:-20px;
   width:8px;
   height:14px;
   border-radius:3px;
   animation:fall 4s linear infinite;
+  z-index:3;
+  pointer-events:none;
 }
 
 @keyframes bounce{
@@ -195,7 +200,6 @@ button{
 
   <h1>Happy Birthday!</h1>
 
-  <!-- यहाँ नाम बदलें -->
   <div class="name">Anubhav</div>
 
   <p>
@@ -216,7 +220,6 @@ button{
       May your special day be as awesome and wonderful as you are! 🌸✨
     </p>
 
-    <!-- प्यारी lines यहाँ आएंगी -->
     <div id="birthdayLines">
 
       <div class="birthday-line">
@@ -251,7 +254,6 @@ function showSurprise(){
 
   document.getElementById("surprise").classList.add("show");
 
-  /* Birthday lines को धीरे-धीरे दिखाना */
   const lines = document.querySelectorAll(".birthday-line");
 
   document.getElementById("birthdayLines").classList.add("show");
@@ -260,7 +262,6 @@ function showSurprise(){
     line.style.animationDelay = (index * 1.5) + "s";
   });
 
-  /* Confetti */
   for(let i=0;i<35;i++){
 
     const c=document.createElement("div");
