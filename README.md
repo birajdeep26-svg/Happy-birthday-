@@ -1,77 +1,66 @@
-# Happy-birthday- <!DOCTYPE html>
+# Happy-birthday- from pathlib import Path
+import zipfile, shutil
+
+base = Path("/mnt/data/birthday_website")
+base.mkdir(exist_ok=True)
+
+# Copy uploaded photos into the website folder with simple names.
+srcs = [
+    Path("/mnt/data/1000041429.jpg"),
+    Path("/mnt/data/1000041425.jpg"),
+    Path("/mnt/data/1000041426.jpg"),
+    Path("/mnt/data/1000041427.jpg"),
+    Path("/mnt/data/1000041428.jpg"),
+]
+for i, src in enumerate(srcs, 1):
+    shutil.copy2(src, base / f"photo{i}.jpg")
+
+html = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Birthday Surprise 🎂</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
 
 body{
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  overflow-x:hidden;
-  overflow-y:auto;
-  padding:30px 0;
   font-family:Arial,sans-serif;
   background:linear-gradient(135deg,#ffd6e7,#d8e7ff,#e7d7ff);
+  overflow-x:hidden;
+  padding:25px 0 60px;
 }
 
 .card{
-  width:min(92%,430px);
-  padding:32px 24px;
+  width:min(94%,460px);
+  margin:0 auto;
+  padding:28px 18px 35px;
   text-align:center;
   border-radius:28px;
-  background:rgba(255,255,255,.72);
+  background:rgba(255,255,255,.75);
   backdrop-filter:blur(14px);
   box-shadow:0 20px 60px rgba(70,40,100,.22);
-  position:relative;
-  z-index:2;
-  margin:auto 0;
 }
 
 .emoji{
-  font-size:64px;
+  font-size:58px;
   animation:bounce 1.8s infinite;
 }
 
 h1{
-  margin:10px 0;
+  margin:10px 0 22px;
   color:#6d3fa0;
-  font-size:34px;
-}
-
-.name{
-  display:inline-block;
-  min-width:180px;
-  margin:8px 0 18px;
-  padding:10px 16px;
-  border-radius:14px;
-  background:#fff;
-  color:#ff5f9e;
-  font-size:25px;
-  font-weight:bold;
-}
-
-p{
-  color:#555;
-  line-height:1.6;
-  font-size:16px;
+  font-size:32px;
 }
 
 button{
-  margin-top:24px;
   border:0;
   border-radius:999px;
-  padding:14px 25px;
+  padding:14px 27px;
   font-size:16px;
   font-weight:bold;
   color:white;
@@ -80,213 +69,202 @@ button{
   box-shadow:0 8px 20px rgba(141,107,255,.3);
 }
 
-#surprise{
+#gallery{
   display:none;
-  margin-top:22px;
-  padding:18px;
-  border-radius:18px;
-  background:#fff;
+  margin-top:25px;
 }
 
-#surprise.show{
+#gallery.show{
   display:block;
   animation:pop .5s ease;
 }
 
-#birthdayLines{
+.photo-page{
   display:none;
-  margin-top:18px;
-  max-height:none;
-  overflow:visible;
+  animation:photoIn .5s ease;
 }
 
-#birthdayLines.show{
+.photo-page.active{
   display:block;
 }
 
-.birthday-line{
-  opacity:0;
-  transform:translateY(20px);
-  margin:12px 0;
-  color:#7a4bb5;
-  font-size:17px;
+.photo{
+  width:100%;
+  max-height:75vh;
+  object-fit:contain;
+  border-radius:20px;
+  display:block;
+  margin:0 auto 18px;
+  background:#111;
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
+}
+
+.message{
+  margin:0 auto 18px;
+  padding:14px;
+  border-radius:15px;
+  background:rgba(255,255,255,.8);
+  color:#777;
+  font-size:15px;
+  line-height:1.5;
+  border:1px dashed #c5a8df;
+}
+
+/* यहाँ अपना मैसेज लिखें */
+.message span{
+  color:#999;
+}
+
+.counter{
+  margin:8px 0 14px;
+  color:#76548e;
+  font-size:14px;
   font-weight:bold;
-  animation:lineIn .8s ease forwards;
 }
 
-@keyframes lineIn{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.next-btn{
+  display:none;
 }
 
-.balloon{
-  position:fixed;
-  font-size:42px;
-  animation:float 6s linear infinite;
-  pointer-events:none;
-  z-index:1;
+.next-btn.show{
+  display:inline-block;
 }
 
-.b1{
-  left:7%;
-  bottom:-60px;
+.back-btn{
+  display:none;
+  margin-left:7px;
+  background:linear-gradient(90deg,#777,#9b7bb8);
 }
 
-.b2{
-  right:8%;
-  bottom:-70px;
-  animation-delay:2s;
-}
-
-.b3{
-  left:25%;
-  bottom:-70px;
-  animation-delay:4s;
-}
-
-.confetti{
-  position:fixed;
-  top:-20px;
-  width:8px;
-  height:14px;
-  border-radius:3px;
-  animation:fall 4s linear infinite;
-  z-index:3;
-  pointer-events:none;
+.back-btn.show{
+  display:inline-block;
 }
 
 @keyframes bounce{
-  50%{
-    transform:translateY(-10px) rotate(3deg);
-  }
+  50%{transform:translateY(-10px) rotate(3deg)}
 }
 
 @keyframes pop{
-  from{
-    transform:scale(.7);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-@keyframes float{
-  to{
-    transform:translateY(-115vh) rotate(20deg);
-  }
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(500deg);
-  }
+@keyframes photoIn{
+  from{opacity:0;transform:translateY(25px)}
+  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="balloon b1">🎈</div>
-<div class="balloon b2">🎈</div>
-<div class="balloon b3">🎈</div>
-
 <div class="card">
 
   <div class="emoji">🎂</div>
+  <h1>Birthday Surprise</h1>
 
-  <h1>Happy Birthday!</h1>
+  <button id="openBtn" onclick="openSurprise()">🎁 Open</button>
 
-  <div class="name">Anubhav</div>
+  <div id="gallery">
 
-  <p>
-    Today is all about smiles, happiness and beautiful memories. 💖<br>
-    Wishing you an amazing birthday filled with lots of fun,
-    laughter and surprises! ✨
-  </p>
-
-  <button onclick="showSurprise()">
-    🎁 Open Your Surprise
-  </button>
-
-  <div id="surprise">
-
-    <h2>💖 A Little Surprise 💖</h2>
-
-    <p style="margin-top:10px">
-      May your special day be as awesome and wonderful as you are! 🌸✨
-    </p>
-
-    <div id="birthdayLines">
-
-      <div class="birthday-line">
-        🌸 May your smile always stay this beautiful. 💖
+    <div class="photo-page active">
+      <div class="counter">Photo 1 / 5</div>
+      <img class="photo" src="photo1.jpg" alt="Birthday photo 1">
+      <div class="message">
+        <span>यहाँ अपना मैसेज लिखें...</span>
       </div>
+      <button class="next-btn show" onclick="nextPhoto()">Next ➜</button>
+    </div>
 
-      <div class="birthday-line">
-        ✨ May every moment of your life be filled with happiness.
+    <div class="photo-page">
+      <div class="counter">Photo 2 / 5</div>
+      <img class="photo" src="photo2.jpg" alt="Birthday photo 2">
+      <div class="message">
+        <span>यहाँ अपना मैसेज लिखें...</span>
       </div>
+      <button class="back-btn show" onclick="prevPhoto()">← Back</button>
+      <button class="next-btn show" onclick="nextPhoto()">Next ➜</button>
+    </div>
 
-      <div class="birthday-line">
-        🥰 You deserve all the love, laughter and happiness in the world.
+    <div class="photo-page">
+      <div class="counter">Photo 3 / 5</div>
+      <img class="photo" src="photo3.jpg" alt="Birthday photo 3">
+      <div class="message">
+        <span>यहाँ अपना मैसेज लिखें...</span>
       </div>
+      <button class="back-btn show" onclick="prevPhoto()">← Back</button>
+      <button class="next-btn show" onclick="nextPhoto()">Next ➜</button>
+    </div>
 
-      <div class="birthday-line">
-        🎂 Keep smiling, keep shining and enjoy your special day!
+    <div class="photo-page">
+      <div class="counter">Photo 4 / 5</div>
+      <img class="photo" src="photo4.jpg" alt="Birthday photo 4">
+      <div class="message">
+        <span>यहाँ अपना मैसेज लिखें...</span>
       </div>
+      <button class="back-btn show" onclick="prevPhoto()">← Back</button>
+      <button class="next-btn show" onclick="nextPhoto()">Next ➜</button>
+    </div>
 
-      <div class="birthday-line">
-        💕 Once again, Happy Birthday! Have the most beautiful day. 🎉
+    <div class="photo-page">
+      <div class="counter">Photo 5 / 5</div>
+      <img class="photo" src="photo5.jpg" alt="Birthday photo 5">
+      <div class="message">
+        <span>यहाँ अपना मैसेज लिखें...</span>
       </div>
-
+      <button class="back-btn show" onclick="prevPhoto()">← Back</button>
     </div>
 
   </div>
-
 </div>
 
 <script>
+let current = 0;
+const pages = document.querySelectorAll(".photo-page");
 
-function showSurprise(){
+function openSurprise(){
+  document.getElementById("openBtn").style.display = "none";
+  document.getElementById("gallery").classList.add("show");
 
-  document.getElementById("surprise").classList.add("show");
-
-  const lines = document.querySelectorAll(".birthday-line");
-
-  document.getElementById("birthdayLines").classList.add("show");
-
-  lines.forEach((line,index)=>{
-    line.style.animationDelay = (index * 1.5) + "s";
+  document.getElementById("gallery").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
   });
-
-  for(let i=0;i<35;i++){
-
-    const c=document.createElement("div");
-
-    c.className="confetti";
-
-    c.style.left=Math.random()*100+"%";
-
-    c.style.animationDelay=
-      (Math.random()*1.5)+"s";
-
-    c.style.animationDuration=
-      (2.5+Math.random()*2)+"s";
-
-    document.body.appendChild(c);
-
-    setTimeout(()=>{
-      c.remove();
-    },5000);
-
-  }
-
 }
 
+function showPhoto(index){
+  pages[current].classList.remove("active");
+  current = index;
+  pages[current].classList.add("active");
+
+  pages[current].scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+function nextPhoto(){
+  if(current < pages.length - 1){
+    showPhoto(current + 1);
+  }
+}
+
+function prevPhoto(){
+  if(current > 0){
+    showPhoto(current - 1);
+  }
+}
 </script>
 
 </body>
 </html>
+'''
+
+(base / "index.html").write_text(html, encoding="utf-8")
+
+zip_path = Path("/mnt/data/Birthday_Surprise_Website.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for f in sorted(base.iterdir()):
+        z.write(f, arcname=f.name)
+
+print(f"तैयार है: {zip_path}")
