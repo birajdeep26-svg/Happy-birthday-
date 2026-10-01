@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Birthday Surprise 🎂</title>
+<title>Happy Birthday Anubhav 🎂</title>
 
 <style>
 *{
@@ -23,7 +23,6 @@ body{
   font-family:Arial,sans-serif;
   overflow-x:hidden;
 
-  /* BACKGROUND */
   background:
     radial-gradient(circle at 20% 20%, #ffffff80, transparent 25%),
     radial-gradient(circle at 80% 80%, #ffffff70, transparent 25%),
@@ -45,7 +44,7 @@ body{
     0 20px 60px rgba(70,40,100,.25);
 }
 
-/* START SCREEN */
+/* FIRST SCREEN */
 
 .start{
   padding:10px;
@@ -90,7 +89,7 @@ button:active{
   transform:scale(.95);
 }
 
-/* PHOTO AREA */
+/* GALLERY */
 
 #gallery{
   display:none;
@@ -118,45 +117,32 @@ button:active{
   margin-bottom:10px;
 }
 
-/* PHOTOS */
-
 .photo img{
   width:100%;
   height:auto;
-
   max-height:72vh;
-
   object-fit:contain;
-
   display:block;
 
   border-radius:20px;
-
   background:#111;
 
   box-shadow:
     0 12px 35px rgba(0,0,0,.25);
 }
 
-/* MESSAGE PLACE */
-
 .message{
   margin:15px 0;
-
   padding:14px;
 
   border-radius:15px;
 
   background:white;
-
   border:1px dashed #c5a8df;
 
   color:#888;
-
   font-size:15px;
 }
-
-/* BUTTONS */
 
 .buttons{
   margin-top:10px;
@@ -262,29 +248,24 @@ button:active{
 </style>
 </head>
 
-
 <body>
-
-<!-- BACKGROUND BALLOONS -->
 
 <div class="balloon b1">🎈</div>
 <div class="balloon b2">🎈</div>
 <div class="balloon b3">🎈</div>
 
-
 <div class="card">
 
-
-<!-- START -->
+<!-- FIRST SCREEN -->
 
 <div class="start" id="start">
 
   <div class="cake">🎂</div>
 
-  <h1>Birthday Surprise</h1>
+  <h1>Happy Birthday Anubhav! 🎉</h1>
 
   <p>
-    एक छोटा सा surprise आपके लिए 💖
+    आपके लिए एक छोटा सा surprise 💖
   </p>
 
   <button onclick="openSurprise()">
@@ -294,11 +275,9 @@ button:active{
 </div>
 
 
-
 <!-- PHOTO GALLERY -->
 
 <div id="gallery">
-
 
 <!-- PHOTO 1 -->
 
@@ -315,15 +294,12 @@ button:active{
   </div>
 
   <div class="buttons">
-
     <button onclick="nextPhoto()">
       Next ➜
     </button>
-
   </div>
 
 </section>
-
 
 
 <!-- PHOTO 2 -->
@@ -355,7 +331,6 @@ button:active{
 </section>
 
 
-
 <!-- PHOTO 3 -->
 
 <section class="photo">
@@ -383,7 +358,6 @@ button:active{
   </div>
 
 </section>
-
 
 
 <!-- PHOTO 4 -->
@@ -415,7 +389,6 @@ button:active{
 </section>
 
 
-
 <!-- PHOTO 5 -->
 
 <section class="photo">
@@ -444,12 +417,10 @@ button:active{
 
 </section>
 
-
 </div>
 
 
-
-<!-- FINAL HAPPY BIRTHDAY -->
+<!-- FINAL -->
 
 <div id="final">
 
@@ -458,7 +429,7 @@ button:active{
   </div>
 
   <h2>
-    Happy Birthday! 💖
+    Happy Birthday Anubhav! 💖
   </h2>
 
   <p>
@@ -468,9 +439,7 @@ button:active{
 
 </div>
 
-
 </div>
-
 
 
 <script>
@@ -491,8 +460,6 @@ function openSurprise(){
   .getElementById("gallery")
   .classList.add("show");
 
-  scrollToGallery();
-
 }
 
 
@@ -508,7 +475,10 @@ function nextPhoto(){
     photos[currentPhoto]
     .classList.add("active");
 
-    scrollToGallery();
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
 
   }
 
@@ -527,21 +497,12 @@ function previousPhoto(){
     photos[currentPhoto]
     .classList.add("active");
 
-    scrollToGallery();
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
 
   }
-
-}
-
-
-function scrollToGallery(){
-
-  document
-  .getElementById("gallery")
-  .scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
 
 }
 
@@ -556,11 +517,9 @@ function finishBirthday(){
   .getElementById("final")
   .classList.add("show");
 
-  document
-  .getElementById("final")
-  .scrollIntoView({
-    behavior:"smooth",
-    block:"center"
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
   });
 
 }
